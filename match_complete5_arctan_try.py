@@ -246,19 +246,19 @@ def is_acc(param, i, folder_name, k):
     loc4 = str(matchLoc4)
     locx4 = str(matchLoc4[0])
     locy4 = str(matchLoc4[1])
-    cv.rectangle(img_display, (matchLoc[0] + roi_width, matchLoc[1] + roi_height),
-                 (matchLoc[0] + templ1.shape[0] + roi_width, matchLoc[1] + templ1.shape[1] + roi_height), (0, 0, 255),
+    cv.rectangle(img_display, (matchLoc[0] + roi_width2, matchLoc[1] + roi_height2),
+                 (matchLoc[0] + templ1.shape[0] + roi_width2, matchLoc[1] + templ1.shape[1] + roi_height2), (0, 0, 255),
                  2,
                  8, 0)
-    cv.rectangle(result1, (matchLoc[0] + roi_width, matchLoc[1] + roi_height),
-                 (matchLoc[0] + templ1.shape[0] + roi_width, matchLoc[1] + templ1.shape[1] + roi_height), (0, 0, 0), 2,
-                 8, 0)
+    # cv.rectangle(result1, (matchLoc[0] + roi_width, matchLoc[1] + roi_height),
+    #              (matchLoc[0] + templ1.shape[0] + roi_width, matchLoc[1] + templ1.shape[1] + roi_height), (0, 0, 255), 2,
+    #              8, 0)
     cv.rectangle(img_display, (matchLoc2[0] + roi_width, matchLoc2[1] + roi_height),
                  (matchLoc2[0] + templ2.shape[0] + roi_width, matchLoc2[1] + templ2.shape[1] + roi_height), (255, 0, 0),
                  2, 8, 0)
-    cv.rectangle(result1, (matchLoc2[0] + roi_width2, matchLoc2[1] + roi_height2),
-                 (matchLoc2[0] + templ2.shape[0] + roi_width2, matchLoc2[1] + templ2.shape[1] + roi_height2), (0, 0, 0),
-                 2, 8, 0)
+    # cv.rectangle(result1, (matchLoc2[0] + roi_width2, matchLoc2[1] + roi_height2),
+    #              (matchLoc2[0] + templ2.shape[0] + roi_width2, matchLoc2[1] + templ2.shape[1] + roi_height2), (255, 0, 0),
+    #              2, 8, 0)
     cv.putText(img_display, loc, (208, 55), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv.putText(img_display, loc2, (208, 100), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
     # cv.imshow(image_window, img_display)
@@ -358,10 +358,20 @@ if __name__ == "__main__":
     img_rotate2 = file_count2
     rotate = False
     script_dir = os.path.dirname(__file__)
-    templ1 = os.path.join(script_dir, "symbol", "30_3.jpg")
-    templ2 = os.path.join(script_dir, "symbol", "30_4.jpg")
-    templ12 = os.path.join(script_dir, "symbol", "30.jpg")
-    templ22 = os.path.join(script_dir, "symbol", "30_2.jpg")
+
+    # image22=os.path.join(script_dir,"Video","1111","4.jpg")
+    # image22=cv.imread(image22,cv.IMREAD_COLOR)
+    # print(image22.shape[:2])
+    # templ1 = image22[300:500,550:750]
+    # templ2 = image22[420:620,700:900]
+    # cv.imshow('test',templ1)
+    # cv.imshow('test2',templ2)
+    # cv.waitKey(0)
+
+    templ1 = os.path.join(script_dir, "symbol", "11.jpg")
+    templ2 = os.path.join(script_dir, "symbol", "22.jpg")
+    templ12 = os.path.join(script_dir, "symbol", "33.jpg")
+    templ22 = os.path.join(script_dir, "symbol", "44.jpg")
     if img_rotate == None:
         img = os.path.join(script_dir, "symbol", "img", "5.jpg")
         image = (None, img, templ1, rotate, filename)
@@ -374,12 +384,12 @@ if __name__ == "__main__":
         for i in range(img_rotate):
             if i % 1 == 0:
                 try:
-                    img = os.path.join(script_dir, "Video", "1111", str(i) + ".jpg")
-                    templ1 = os.path.join(script_dir, "symbol", "30_3.jpg")
-                    templ2 = os.path.join(script_dir, "symbol", "30_4.jpg")
-                    templ12 = os.path.join(script_dir, "symbol", "30.jpg")
-                    templ22 = os.path.join(script_dir, "symbol", "30_2.jpg")
-                    img2 = os.path.join(script_dir, "Video", '1122', str(i) + ".jpg")
+                    img = os.path.join(script_dir, "Video", "15frame" ,"1111", str(i) + ".jpg")
+                    templ1 = os.path.join(script_dir, "symbol", "11.jpg")
+                    templ2 = os.path.join(script_dir, "symbol", "22.jpg")
+                    templ12 = os.path.join(script_dir, "symbol", "33.jpg")
+                    templ22 = os.path.join(script_dir, "symbol", "44.jpg")
+                    img2 = os.path.join(script_dir, "Video","15frame", '1122', str(i) + ".jpg")
                     image = (None, img, templ1, templ2, rotate, filename, i, img2, templ12, templ22)
                     # print(image)
                     main(image)
