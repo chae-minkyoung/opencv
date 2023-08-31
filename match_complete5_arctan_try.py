@@ -348,14 +348,17 @@ if __name__ == "__main__":
     g = open("./data/test/fail/" + filename + ".csv", 'a', encoding='utf-8')
     g.write("img_number" + ',' + "templ1ate_rotating" + ',' + 'x' + ',' + 'y' + ',' + 'x' + ',' + 'y' + '\n')
 
-    folder_path = "./Video/1111/"
+    folder_path = "./Video/15frame/1111/"
     file_list = os.listdir(folder_path)
     file_count = len(file_list)
+
     img_rotate = file_count
-    folder_path2 = "./Video/1122/"
+    folder_path2 = "./Video/15frame/1122/"
     file_list2 = os.listdir(folder_path2)
     file_count2 = len(file_list2)
     img_rotate2 = file_count2
+    img_rotate=min(file_count,file_count2)
+
     rotate = False
     script_dir = os.path.dirname(__file__)
 
