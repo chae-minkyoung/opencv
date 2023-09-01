@@ -291,17 +291,15 @@ def is_acc(param, i, folder_name):
     theta_rad2 = math.atan(tan2)
     theta_deg2 = math.degrees(theta_rad2)
     theta_deg2 = round(theta_deg2, 1)
-    # if (35 < theta_deg < 60):
-    #     pass
-    # else:
-    #     theta_deg = 180
-    #
-    # if (0 == theta_deg2 or 80 <= abs(theta_deg2) <= 90 or -90 <= theta_deg2 <= -40):
-    #     pass
-    # else:
-    #     theta_deg2 = 180
+    if 50<theta_deg<70:
+        pass
+    else:
+        theta_deg=0
+    if 40<theta_deg2<60:
+        pass
+    else:
+        theta_deg2=0
 
-    # print(theta_deg)
     cv.putText(img_display, 'angle(deg) : ' + str(theta_deg), (500, 80), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 4)
     cv.putText(img2_display, 'angle(deg) : ' + str(theta_deg2), (500, 80), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 4)
     cv.imwrite('./symbol/img_result/test/' + filename + '/' + str(i) + ".jpg", img_display)
