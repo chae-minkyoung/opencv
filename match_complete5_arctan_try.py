@@ -182,10 +182,10 @@ def is_acc(param, i, folder_name):
     ## [copy_source]
     ## [match_templ1ate]
     method_accepts_mask = (cv.TM_SQDIFF == match_method or match_method == cv.TM_CCORR_NORMED)
-    result1 = cv.matchTemplate(img[0:roi_width,:], templ1, match_method)
+    result1 = cv.matchTemplate(img[0:roi_height,:], templ1, match_method)
     # result1 = cv.matchTemplate(img[roi_width2:w1 - roi_width2, roi_height2:h1 - roi_height2], templ1, match_method)
     # result2 = cv.matchTemplate(img, templ2, match_method)
-    result2 = cv.matchTemplate(img[0:roi_width,: ], templ2, match_method)
+    result2 = cv.matchTemplate(img[0:roi_height,: ], templ2, match_method)
     # result2 = cv.matchTemplate(img[roi_width:, roi_height:], templ2, match_method)
     result11 = cv.matchTemplate(img[roi_width:,:], templ12, match_method)
     result12 = cv.matchTemplate(img[roi_width:,:], templ22, match_method)
@@ -291,7 +291,7 @@ def is_acc(param, i, folder_name):
     theta_rad2 = math.atan(tan2)
     theta_deg2 = math.degrees(theta_rad2)
     theta_deg2 = round(theta_deg2, 1)
-    if 50<theta_deg<70:
+    if 45<theta_deg<70:
         pass
     else:
         theta_deg=0
@@ -307,9 +307,11 @@ def is_acc(param, i, folder_name):
     theta_brake = abs(theta_deg2)
 
     # if 90 > theta_brake > 80 or theta_deg2 == 0:
-    brake.write(folder_name + ',' + str(i) + ',' + str(theta_deg) + ','  + '\n')  # acc
+    # brake.write(folder_name + ',' + str(i) + ',' + str(theta_deg) + ','  + '\n')  # acc
     # else:
-    acc.write(folder_name + ',' + str(i) + ',' + str(theta_deg) + ',' + '\n')
+    acc.write(folder_name + ',' + str(i) + ',' + str(theta_deg) +',' +str(theta_deg2) + ',' + '\n')
+
+
     # acc.write(folder_name + ',' + str(i) + ',' + ',' + str(theta_deg) + ',' + str(theta_brake) + '\n')  # brake
 
     # print(filename+'/'+str(i))
@@ -338,10 +340,11 @@ if __name__ == "__main__":
     f.write("img_angle" + ',' + "templ1ate_rotating_angle" + ',' + 'x' + ',' + 'y' + '\n')
 
     acc = open("./data/test/" + filename + "acc.csv", 'a', encoding='utf-8')
-    acc.write("filename" + ',' + "number" + ',' + 'angle' + '\n')
+    acc.write("filename" + ',' + "number" + ',' + 'b.angle' + ',' + 'a.angle'+ '\n')
+    # acc.write("filename" + ',' + "number" + ',' + 'angle' + '\n')
 
-    brake = open("./data/test/" + filename + "brake.csv", 'a', encoding='utf-8')
-    brake.write("filename" + ',' + "number" + ',' + 'angle' + '\n')
+    # brake = open("./data/test/" + filename + "brake.csv", 'a', encoding='utf-8')
+    # brake.write("filename" + ',' + "number" + ',' + 'angle' + '\n')
 
     g = open("./data/test/fail/" + filename + ".csv", 'a', encoding='utf-8')
     g.write("img_number" + ',' + "templ1ate_rotating" + ',' + 'x' + ',' + 'y' + ',' + 'x' + ',' + 'y' + '\n')
@@ -399,7 +402,7 @@ if __name__ == "__main__":
             else:
                 pass
         acc.close()
-        brake.close()
+        # brake.close()
         f.close()
         g.close()
 
