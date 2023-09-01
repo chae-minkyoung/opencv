@@ -348,7 +348,7 @@ if __name__ == "__main__":
     g = open("./data/test/fail/" + filename + ".csv", 'a', encoding='utf-8')
     g.write("img_number" + ',' + "templ1ate_rotating" + ',' + 'x' + ',' + 'y' + ',' + 'x' + ',' + 'y' + '\n')
 
-    folder_path = "./Video/pedal_sym_1_10fps/"
+    folder_path = "./Video/pedal_sym_2_10fps/"
     file_list = os.listdir(folder_path)
     file_count = len(file_list)
     img_rotate = file_count
@@ -371,8 +371,8 @@ if __name__ == "__main__":
 
     templ1 = os.path.join(script_dir, "symbol", "30.jpg")
     templ2 = os.path.join(script_dir, "symbol", "30_2.jpg")
-    templ12 = os.path.join(script_dir, "symbol", "30_3.jpg")
-    templ22 = os.path.join(script_dir, "symbol", "30_4.jpg")
+    templ12 = os.path.join(script_dir, "symbol", "30_5.jpg")
+    templ22 = os.path.join(script_dir, "symbol", "30_6.jpg")
     if img_rotate == None:
         img = os.path.join(script_dir, "symbol", "img", "5.jpg")
         image = (None, img, templ1, rotate, filename)
@@ -385,11 +385,11 @@ if __name__ == "__main__":
         for i in range(img_rotate):
             if i % 1 == 0:
                 try:
-                    img = os.path.join(script_dir, "Video" ,"pedal_sym_1_10fps", str(i) + ".jpg")
+                    img = os.path.join(script_dir, "Video" ,"pedal_sym_2_10fps", str(i) + ".jpg")
                     templ1 = os.path.join(script_dir, "symbol", "30.jpg")
                     templ2 = os.path.join(script_dir, "symbol", "30_2.jpg")
-                    templ12 = os.path.join(script_dir, "symbol", "30_3.jpg")
-                    templ22 = os.path.join(script_dir, "symbol", "30_4.jpg")
+                    templ12 = os.path.join(script_dir, "symbol", "30_5.jpg")
+                    templ22 = os.path.join(script_dir, "symbol", "30_6.jpg")
                     # img2 = os.path.join(script_dir, "Video","15frame", '1122', str(i) + ".jpg")
                     image = (None, img, templ1, templ2, rotate, filename, i, templ12, templ22)
                     # image = (None, img, templ1, templ2, rotate, filename, i, img2, templ12, templ22)
