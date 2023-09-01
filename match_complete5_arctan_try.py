@@ -15,7 +15,7 @@ def main(argv):
 
     ## [load_image]
     global img
-    global img2
+    # global img2
     global templ1
     global filename
     global templ2
@@ -37,16 +37,16 @@ def main(argv):
         return -1
 
     img = cv.imread(argv[1], cv.IMREAD_COLOR)
-    img2 = cv.imread(argv[7], cv.IMREAD_COLOR)
+    # img2 = cv.imread(argv[7], cv.IMREAD_COLOR)
     templ1 = cv.imread(argv[2], cv.IMREAD_COLOR)
     templ2 = cv.imread(argv[3], cv.IMREAD_COLOR)
-    templ12 = cv.imread(argv[8], cv.IMREAD_COLOR)
-    templ22 = cv.imread(argv[9], cv.IMREAD_COLOR)
+    templ12 = cv.imread(argv[7], cv.IMREAD_COLOR)
+    templ22 = cv.imread(argv[8], cv.IMREAD_COLOR)
 
     if argv[4] == False:
         if use_img_rotate == True:
             # MatchingMethod(match_method,argv[6],argv[5])
-            is_acc(match_method, argv[6], argv[5], argv[7])
+            is_acc(match_method, argv[6], argv[5])
         else:
             folder_name = 'single_test'
             MatchingMethod(match_method, 1, folder_name)
@@ -160,7 +160,7 @@ def MatchingMethod(param, i, folder_name):
     pass
 
 
-def is_acc(param, i, folder_name, k):
+def is_acc(param, i, folder_name):
     global match_method
     match_method = param
     (w1, h1) = img.shape[:2]
@@ -177,16 +177,18 @@ def is_acc(param, i, folder_name, k):
     # print(w1,h1)
     ## [copy_source]
     img_display = img.copy()
-    img2_display = img2.copy()
+    img2_display = img.copy()
+    # img2_display = img2.copy()
     ## [copy_source]
     ## [match_templ1ate]
     method_accepts_mask = (cv.TM_SQDIFF == match_method or match_method == cv.TM_CCORR_NORMED)
-    # result1 = cv.matchTemplate(img, templ1, match_method)
-    result1 = cv.matchTemplate(img[roi_width2:w1 - roi_width2, roi_height2:h1 - roi_height2], templ1, match_method)
+    result1 = cv.matchTemplate(img[0:roi_width,:], templ1, match_method)
+    # result1 = cv.matchTemplate(img[roi_width2:w1 - roi_width2, roi_height2:h1 - roi_height2], templ1, match_method)
     # result2 = cv.matchTemplate(img, templ2, match_method)
-    result2 = cv.matchTemplate(img[roi_width:, roi_height:], templ2, match_method)
-    result11 = cv.matchTemplate(img2, templ12, match_method)
-    result12 = cv.matchTemplate(img2, templ22, match_method)
+    result2 = cv.matchTemplate(img[0:roi_width,: ], templ2, match_method)
+    # result2 = cv.matchTemplate(img[roi_width:, roi_height:], templ2, match_method)
+    result11 = cv.matchTemplate(img[roi_width:,:], templ12, match_method)
+    result12 = cv.matchTemplate(img[roi_width:,:], templ22, match_method)
 
     ## [match_templ1ate]
     # 입력 이미지 크기 확인
@@ -246,30 +248,27 @@ def is_acc(param, i, folder_name, k):
     loc4 = str(matchLoc4)
     locx4 = str(matchLoc4[0])
     locy4 = str(matchLoc4[1])
-    cv.rectangle(img_display, (matchLoc[0] + roi_width2, matchLoc[1] + roi_height2),
-                 (matchLoc[0] + templ1.shape[0] + roi_width2, matchLoc[1] + templ1.shape[1] + roi_height2), (0, 0, 255),
-                 2,
-                 8, 0)
-    # cv.rectangle(result1, (matchLoc[0] + roi_width, matchLoc[1] + roi_height),
-    #              (matchLoc[0] + templ1.shape[0] + roi_width, matchLoc[1] + templ1.shape[1] + roi_height), (0, 0, 255), 2,
-    #              8, 0)
-    cv.rectangle(img_display, (matchLoc2[0] + roi_width, matchLoc2[1] + roi_height),
-                 (matchLoc2[0] + templ2.shape[0] + roi_width, matchLoc2[1] + templ2.shape[1] + roi_height), (255, 0, 0),
-                 2, 8, 0)
-    # cv.rectangle(result1, (matchLoc2[0] + roi_width2, matchLoc2[1] + roi_height2),
-    #              (matchLoc2[0] + templ2.shape[0] + roi_width2, matchLoc2[1] + templ2.shape[1] + roi_height2), (255, 0, 0),
-    #              2, 8, 0)
+    cv.rectangle(img_display, (matchLoc[0], matchLoc[1]),
+                 (matchLoc[0] + templ1.shape[0], matchLoc[1] + templ1.shape[1]), (0, 0, 255),
+                 2,8, 0) #2번
+    cv.rectangle(img_display, (matchLoc2[0], matchLoc2[1]),
+                 (matchLoc2[0] + templ2.shape[0], matchLoc2[1] + templ2.shape[1]), (255, 0, 0),
+                 2, 8, 0)#1번
+    # cv.rectangle(img_display, (matchLoc[0] + roi_width2, matchLoc[1] + roi_height2),
+    #              (matchLoc[0] + templ1.shape[0] + roi_width2, matchLoc[1] + templ1.shape[1] + roi_height2), (0, 0, 255),
+    #              2, 8, 0)  # 2번
+    # cv.rectangle(img_display, (matchLoc2[0] + roi_width, matchLoc2[1] + roi_height),
+    #              (matchLoc2[0] + templ2.shape[0] + roi_width, matchLoc2[1] + templ2.shape[1] + roi_height), (255, 0, 0),
+    #              2, 8, 0)  # 1번
     cv.putText(img_display, loc, (208, 55), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv.putText(img_display, loc2, (208, 100), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
     # cv.imshow(image_window, img_display)
     # cv.imshow(result1_window, result1)
 
-    start_point = (
-    roi_width2 + int(matchLoc[0] + (templ1.shape[1]) / 2), int(roi_height2 + matchLoc[1] + (templ1.shape[0]) / 2))
-    end_point = (
-    int(roi_width + matchLoc2[0] + (templ2.shape[1]) / 2), int(matchLoc2[1] + (templ2.shape[0]) / 2) + roi_height)
-    start_point2 = (int(matchLoc3[0] + (templ1.shape[1]) / 2), int(matchLoc3[1] + (templ1.shape[0]) / 2))
-    end_point2 = (int(matchLoc4[0] + (templ2.shape[1]) / 2), int(matchLoc4[1] + (templ2.shape[0]) / 2))
+    start_point = (int(matchLoc[0] + (templ1.shape[1]) / 2), int(matchLoc[1] + (templ1.shape[0]) / 2))
+    end_point = (int(matchLoc2[0] + (templ2.shape[1]) / 2), int(matchLoc2[1] + (templ2.shape[0]) / 2))
+    start_point2 = (int(matchLoc3[0] + (templ1.shape[1]) / 2), int(roi_height+matchLoc3[1] + (templ12.shape[0]) / 2))
+    end_point2 = (int(matchLoc4[0] + (templ2.shape[1]) / 2), int(roi_height+matchLoc4[1] + (templ22.shape[0]) / 2))
     color = (0, 255, 0)
     thickness = 10
 
@@ -292,15 +291,15 @@ def is_acc(param, i, folder_name, k):
     theta_rad2 = math.atan(tan2)
     theta_deg2 = math.degrees(theta_rad2)
     theta_deg2 = round(theta_deg2, 1)
-    if (35 < theta_deg < 60):
-        pass
-    else:
-        theta_deg = 180
-
-    if (0 == theta_deg2 or 80 <= abs(theta_deg2) <= 90 or -90 <= theta_deg2 <= -40):
-        pass
-    else:
-        theta_deg2 = 180
+    # if (35 < theta_deg < 60):
+    #     pass
+    # else:
+    #     theta_deg = 180
+    #
+    # if (0 == theta_deg2 or 80 <= abs(theta_deg2) <= 90 or -90 <= theta_deg2 <= -40):
+    #     pass
+    # else:
+    #     theta_deg2 = 180
 
     # print(theta_deg)
     cv.putText(img_display, 'angle(deg) : ' + str(theta_deg), (500, 80), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 4)
@@ -309,10 +308,11 @@ def is_acc(param, i, folder_name, k):
     cv.imwrite('./symbol/img_result/test/' + filename + '_2' + '/' + str(i) + ".jpg", img2_display)
     theta_brake = abs(theta_deg2)
 
-    if 90 > theta_brake > 80 or theta_deg2 == 0:
-        acc.write(folder_name + ',' + str(i) + ',' + str(theta_deg) + ',' + ',' + str(theta_brake) + '\n')  # acc
-    else:
-        acc.write(folder_name + ',' + str(i) + ',' + ',' + str(theta_deg) + ',' + str(theta_brake) + '\n')  # brake
+    # if 90 > theta_brake > 80 or theta_deg2 == 0:
+    brake.write(folder_name + ',' + str(i) + ',' + str(theta_deg) + ','  + '\n')  # acc
+    # else:
+    acc.write(folder_name + ',' + str(i) + ',' + str(theta_deg) + ',' + '\n')
+    # acc.write(folder_name + ',' + str(i) + ',' + ',' + str(theta_deg) + ',' + str(theta_brake) + '\n')  # brake
 
     # print(filename+'/'+str(i))
     # if matchLoc[0] and matchLoc[1] != 285:
@@ -340,7 +340,7 @@ if __name__ == "__main__":
     f.write("img_angle" + ',' + "templ1ate_rotating_angle" + ',' + 'x' + ',' + 'y' + '\n')
 
     acc = open("./data/test/" + filename + "acc.csv", 'a', encoding='utf-8')
-    acc.write("filename" + ',' + "number" + ',' + 'b.angle' + ',' + 'a.angle' + ',' + 's.angle' + '\n')
+    acc.write("filename" + ',' + "number" + ',' + 'angle' + '\n')
 
     brake = open("./data/test/" + filename + "brake.csv", 'a', encoding='utf-8')
     brake.write("filename" + ',' + "number" + ',' + 'angle' + '\n')
@@ -348,16 +348,14 @@ if __name__ == "__main__":
     g = open("./data/test/fail/" + filename + ".csv", 'a', encoding='utf-8')
     g.write("img_number" + ',' + "templ1ate_rotating" + ',' + 'x' + ',' + 'y' + ',' + 'x' + ',' + 'y' + '\n')
 
-    folder_path = "./Video/15frame/1111/"
+    folder_path = "./Video/pedal_sym_1_10fps/"
     file_list = os.listdir(folder_path)
     file_count = len(file_list)
-
     img_rotate = file_count
     folder_path2 = "./Video/15frame/1122/"
     file_list2 = os.listdir(folder_path2)
     file_count2 = len(file_list2)
     img_rotate2 = file_count2
-    img_rotate=min(file_count,file_count2)
 
     rotate = False
     script_dir = os.path.dirname(__file__)
@@ -371,10 +369,10 @@ if __name__ == "__main__":
     # cv.imshow('test2',templ2)
     # cv.waitKey(0)
 
-    templ1 = os.path.join(script_dir, "symbol", "11.jpg")
-    templ2 = os.path.join(script_dir, "symbol", "22.jpg")
-    templ12 = os.path.join(script_dir, "symbol", "33.jpg")
-    templ22 = os.path.join(script_dir, "symbol", "44.jpg")
+    templ1 = os.path.join(script_dir, "symbol", "30.jpg")
+    templ2 = os.path.join(script_dir, "symbol", "30_2.jpg")
+    templ12 = os.path.join(script_dir, "symbol", "30_3.jpg")
+    templ22 = os.path.join(script_dir, "symbol", "30_4.jpg")
     if img_rotate == None:
         img = os.path.join(script_dir, "symbol", "img", "5.jpg")
         image = (None, img, templ1, rotate, filename)
@@ -387,13 +385,14 @@ if __name__ == "__main__":
         for i in range(img_rotate):
             if i % 1 == 0:
                 try:
-                    img = os.path.join(script_dir, "Video", "15frame" ,"1111", str(i) + ".jpg")
-                    templ1 = os.path.join(script_dir, "symbol", "11.jpg")
-                    templ2 = os.path.join(script_dir, "symbol", "22.jpg")
-                    templ12 = os.path.join(script_dir, "symbol", "33.jpg")
-                    templ22 = os.path.join(script_dir, "symbol", "44.jpg")
-                    img2 = os.path.join(script_dir, "Video","15frame", '1122', str(i) + ".jpg")
-                    image = (None, img, templ1, templ2, rotate, filename, i, img2, templ12, templ22)
+                    img = os.path.join(script_dir, "Video" ,"pedal_sym_1_10fps", str(i) + ".jpg")
+                    templ1 = os.path.join(script_dir, "symbol", "30.jpg")
+                    templ2 = os.path.join(script_dir, "symbol", "30_2.jpg")
+                    templ12 = os.path.join(script_dir, "symbol", "30_3.jpg")
+                    templ22 = os.path.join(script_dir, "symbol", "30_4.jpg")
+                    # img2 = os.path.join(script_dir, "Video","15frame", '1122', str(i) + ".jpg")
+                    image = (None, img, templ1, templ2, rotate, filename, i, templ12, templ22)
+                    # image = (None, img, templ1, templ2, rotate, filename, i, img2, templ12, templ22)
                     # print(image)
                     main(image)
                 except:
